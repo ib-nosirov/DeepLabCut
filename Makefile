@@ -1,5 +1,9 @@
+IMAGE ?= enho/deeplabcut:2.1.10
 image:
-	docker build -t enho/deeplabcut .
+	docker build -t $(IMAGE) .
 
 shell: image
-	docker run --rm -it enho/deeplabcut:latest bash
+	docker run --rm -it $(IMAGE) bash
+
+push: image
+	docker push $(IMAGE)
