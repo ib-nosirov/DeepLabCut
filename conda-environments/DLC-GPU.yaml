@@ -17,13 +17,7 @@
 # update:  conda env update -f DLC-GPU.yaml
 name: DLC-GPU
 dependencies:
-  - python=3.7
   - pip
-  - tensorflow-gpu==1.13.1
-  - cudnn=7
   - wxpython<4.1.0
-  - jupyter
   - nb_conda
   - Shapely
-  - pip:
-    - deeplabcut
