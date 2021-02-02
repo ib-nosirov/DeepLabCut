@@ -14,7 +14,7 @@ import shutil
 import tarfile
 
 import numpy as np
-import ruamel.yaml
+from ruamel_yaml import YAML
 import tensorflow as tf
 
 vers = (tf.__version__).split(".")
@@ -57,7 +57,7 @@ def create_deploy_config_template():
     \n
     """
 
-    ruamelFile = ruamel.yaml.YAML()
+    ruamelFile = YAML()
     cfg_file = ruamelFile.load(yaml_str)
     return cfg_file, ruamelFile
 
@@ -71,7 +71,7 @@ def write_deploy_config(configname, cfg):
     """
 
     with open(configname, "w") as cf:
-        ruamelFile = ruamel.yaml.YAML()
+        ruamelFile = YAML()
         cfg_file, ruamelFile = create_deploy_config_template()
         for key in cfg.keys():
             cfg_file[key] = cfg[key]
@@ -365,7 +365,7 @@ def export_model(
             sorted_cfg[key] = value
 
     pose_cfg_file = os.path.normpath(full_export_dir + "/pose_cfg.yaml")
-    ruamel_file = ruamel.yaml.YAML()
+    ruamel_file = YAML()
     ruamel_file.dump(sorted_cfg, open(pose_cfg_file, "w"))
 
     ### copy checkpoint to export directory

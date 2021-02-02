@@ -14,7 +14,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import yaml
-from ruamel.yaml import YAML
+from ruamel_yaml import YAML
 
 
 def create_config_template(multianimal=False):

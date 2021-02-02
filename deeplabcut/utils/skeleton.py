@@ -18,7 +18,7 @@ import pandas as pd
 from matplotlib.collections import LineCollection
 from matplotlib.path import Path
 from matplotlib.widgets import Button, LassoSelector
-from ruamel.yaml import YAML
+from ruamel_yaml import YAML
 from scipy.spatial import cKDTree as KDTree
 from skimage import io
 
