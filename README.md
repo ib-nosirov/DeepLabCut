@@ -4,31 +4,49 @@ The purpose of this fork is to enable usage of DeepLabCut v2.2 on TACC GPU syste
 
 ## Usage
 
-1. (Optional): Build and push the Docker image
-    1. Change the `IMAGE` variable in the [Makefile](./Makefile) to your desired Docker tag
-    2. `make image` to build the image using Docker
-    3. `make push` to push the built image
-    4. `make shell` to run a container in Docker and open an interactive bash session
-2. Pull and run the Docker image via Singularity on TACC GPU
-    1. Clone this repository to your $WORK directory on a GPU-enabled TACC system
-    2. Change `IMAGE` in the [Makefile](./Makefile) to the same tag that you specified above. This is not necessary if you are okay with using the [image I have pushed to Dockerhub](https://hub.docker.com/repository/docker/enho/deeplabcut).
-    3. Change the `SIF` variable to a file path (usually somewhere on $WORK) where you would like to store the `*.sif` file
-    4. Launch an idev session and load the following modules:
-        1. `module load cuda/10.0`
-        2. `module load nccl cudnn tacc-singularity`
-        3. My `module list`:
-        ```bash
-        Currently Loaded Modules:
-          1) intel/19.1.1   4) autotools/1.2   7) pmix/3.1.4     10) TACC            13) cudnn/7.6.2            (g)
-          2) impi/19.0.9    5) python3/3.7.0   8) hwloc/1.11.12  11) cuda/10.0  (g)  14) ooops/1.4
-          3) git/2.24.1     6) cmake/3.16.1    9) xalt/2.10.2    12) nccl/2.4.7 (g)  15) tacc-singularity/3.6.3
-        ```
-    5. `make sing-dlc-demo` to run a [DeepLabCut demo notebook](https://github.com/DeepLabCut/DeepLabCut/blob/06c4a16828c6c335f7d332da3060516d29857893/examples/Demo_labeledexample_Openfield.ipynb) as a `*.py` script (converted via nbconvert)
-        * This script was generated using the following command:
-        ```bash
-        python3 -m nbconvert --to script examples/Demo_labeledexample_Openfield.ipynb
-        ```
-    6. `make sing-shell` to run a container in Singularity and open an interactive bash session
+### (Optional) Build and push the Docker image
+
+1. Change the `IMAGE` variable in the [Makefile](./Makefile) to your desired Docker tag
+2. `make image` to build the image using Docker
+3. `make push` to push the built image
+4. `make shell` to run a container in Docker and open an interactive bash session
+
+### Pull and run the Docker image via idev and Singularity on TACC GPU
+
+1. Open an SSH session on a TACC system that supports GPU computation
+2. Clone this repository to your $WORK directory on a GPU-enabled TACC system
+```bash
+cd $WORK
+git clone https://github.com/eho-tacc/DeepLabCut.git deeplabcut-fork
+cd deeplabcut-fork
+```
+3. Change `IMAGE` in the [Makefile](./Makefile) to the same tag that you specified above. This is not necessary if you are okay with using the [image I have pushed to Dockerhub](https://hub.docker.com/repository/docker/enho/deeplabcut).
+4. Change the `SIF` variable in the [Makefile](./Makefile) to a file path (usually somewhere on $WORK) where you would like to store the `*.sif` file
+5. Launch an idev session and load the following modules:
+    1. `module load cuda/10.0`
+    2. `module load nccl cudnn tacc-singularity`
+    3. My `module list`:
+    ```bash
+    Currently Loaded Modules:
+      1) intel/19.1.1   4) autotools/1.2   7) pmix/3.1.4     10) TACC            13) cudnn/7.6.2            (g)
+      2) impi/19.0.9    5) python3/3.7.0   8) hwloc/1.11.12  11) cuda/10.0  (g)  14) ooops/1.4
+      3) git/2.24.1     6) cmake/3.16.1    9) xalt/2.10.2    12) nccl/2.4.7 (g)  15) tacc-singularity/3.6.3
+    ```
+6. `make sing-dlc-demo` to run a [DeepLabCut demo notebook](https://github.com/DeepLabCut/DeepLabCut/blob/06c4a16828c6c335f7d332da3060516d29857893/examples/Demo_labeledexample_Openfield.ipynb) as a `*.py` script (converted via nbconvert)
+    * This script was generated using the following command:
+    ```bash
+    python3 -m nbconvert --to script examples/Demo_labeledexample_Openfield.ipynb
+    ```
+7. `make sing-shell` to run a container in Singularity and open an interactive bash session
+
+### Running Jupyter within the Singularity image on TACC GPU
+
+This workflow is currently supported for Maverick2 and Frontera GPU nodes. It is similar to running the sbatch script `/share/doc/slurm/job.jupyter`, except that it launches `jupyter-notebook` from within the image built above.
+1. Complete steps 1-4 in the idev workflow described above
+2. Change the `ALLOCATION` in the [Makefile](./Makefile) from "SD2E-Community" to a valid allocation. You can view your allocations on the [TACC User Portal](https://portal.tacc.utexas.edu/projects-and-allocations).
+3. `make jupyter-mav2` or `make jupyter-frontera` to launch a SLURM job running Jupyter in the `SIMG` container, on a Maverick2 GTX node or Fronterat RTX node, respectively. This step is similar to running `sbatch /share/doc/slurm/job.jupyter`.
+4. Wait patiently until `tail -f ./jupyter.out` prints a URL to which you should direct your web browser.
+5. Make sure to `scancel` your job after you are done working.
 
 ## Additional Docs
 

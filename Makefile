@@ -1,5 +1,6 @@
 PYTHON ?= python3
 IMAGE ?= enho/deeplabcut:2.1.10
+ALLOCATION ?= SD2E-Community
 SIF ?= /work/06634/eho/singularity_images/deeplabcut_2_1_10.sif
 
 # ------------------------------- Sanity checks -------------------------------
@@ -60,11 +61,11 @@ sing-shell: $(SIF) | singularity
 # ----------------------------- Jupyter ---------------------------------------
 
 jupyter-mav2: $(SIF)
-	sbatch scripts/mav2.jupytersing -i $(SIF)
+	sbatch -A $(ALLOCATION) scripts/mav2.jupytersing -i $(SIF)
 	sleep 10
 	tail -f jupyter.out
 
 jupyter-frontera: $(SIF)
-	sbatch scripts/frontera.jupytersing -i $(SIF)
+	sbatch -A $(ALLOCATION) scripts/frontera.jupytersing -i $(SIF)
 	sleep 10
 	tail -f jupyter.out
