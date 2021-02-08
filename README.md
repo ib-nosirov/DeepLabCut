@@ -32,17 +32,22 @@ cd deeplabcut-fork
       2) impi/19.0.9    5) python3/3.7.0   8) hwloc/1.11.12  11) cuda/10.0  (g)  14) ooops/1.4
       3) git/2.24.1     6) cmake/3.16.1    9) xalt/2.10.2    12) nccl/2.4.7 (g)  15) tacc-singularity/3.6.3
     ```
-6. `make sing-dlc-demo` to run a [DeepLabCut demo notebook](https://github.com/DeepLabCut/DeepLabCut/blob/06c4a16828c6c335f7d332da3060516d29857893/examples/Demo_labeledexample_Openfield.ipynb) as a `*.py` script (converted via nbconvert)
+6. In the idev session, pull the Docker image to a `*.sif` file:
+```bash
+idev
+make sif
+```
+7. `make sing-dlc-demo` to run a [DeepLabCut demo notebook](https://github.com/DeepLabCut/DeepLabCut/blob/06c4a16828c6c335f7d332da3060516d29857893/examples/Demo_labeledexample_Openfield.ipynb) as a `*.py` script (converted via nbconvert)
     * This script was generated using the following command:
     ```bash
     python3 -m nbconvert --to script examples/Demo_labeledexample_Openfield.ipynb
     ```
-7. `make sing-shell` to run a container in Singularity and open an interactive bash session
+8. Alternatively, `make sing-shell` to run a container in Singularity and open an interactive bash session
 
 ### Running Jupyter within the Singularity image on TACC GPU
 
 This workflow is currently supported for Maverick2 and Frontera GPU nodes. It is similar to running the sbatch script `/share/doc/slurm/job.jupyter`, except that it launches `jupyter-notebook` from within the image built [above](#optional-build-and-push-the-docker-image).
-1. Complete steps 1-4 in the idev workflow described [above](#pull-and-run-the-docker-image-via-idev-and-singularity-on-tacc-gpu)
+1. Complete steps 1-6 in the idev workflow described [above](#pull-and-run-the-docker-image-via-idev-and-singularity-on-tacc-gpu)
 2. Change the `ALLOCATION` in the [Makefile](./Makefile) from "SD2E-Community" to a valid allocation. You can view your allocations on the [TACC User Portal](https://portal.tacc.utexas.edu/projects-and-allocations).
 3. `make jupyter-mav2` or `make jupyter-frontera` to launch a SLURM job running Jupyter in the `SIMG` container, on a Maverick2 GTX node or Fronterat RTX node, respectively. This step is similar to running `sbatch /share/doc/slurm/job.jupyter`.
 4. Wait patiently until `tail -f ./jupyter.out` prints a URL to which you should direct your web browser.

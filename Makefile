@@ -58,6 +58,8 @@ sing-shell: $(SIF) | singularity
 		-B local_models:/opt/conda/lib/python3.7/site-packages/deeplabcut/pose_estimation_tensorflow/models/pretrained/ \
 		$(SIF)
 
+sif: $(SIF)
+
 # ----------------------------- Jupyter ---------------------------------------
 
 jupyter-mav2: $(SIF)
