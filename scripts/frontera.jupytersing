@@ -7,7 +7,7 @@
 # Singularity container. The container must be saved as a SIF file, and its
 # POSIX path should be specified by setting the SIMG variable below.
 #
-# To submit the job, issue: "sbatch job.jupytersing"
+# To submit the job, issue: "sbatch scripts/frontera.jupytersing"
 #
 # For more information, please consult the User Guide at:
 #
