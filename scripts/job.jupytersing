@@ -1,21 +1,12 @@
 #!/bin/bash
 #
 #-----------------------------------------------------------------------------
-# This Frontera job script is designed to create a jupyter notebook session on
-# visualization nodes through the SLURM batch system. Once the job
-# is scheduled, check the output of your job (which by default is
-# stored in your home directory in a file named jupyter.out)
-# and it will tell you the port number that has been setup for you so
-# that you can attach via a separate web browser to any Frontera login
-# node (e.g., login1.frontera.tacc.utexas.edu) or the vis portal (vis.tacc.utexas.edu).
+# Ethan Ho 2/8/2021
+# Like Frontera's /share/doc/slurm/job.jupyter, but runs jupyter-notebook in a
+# Singularity container. The image is passed via the -s flag, and can be any
+# image syntax allowed by `singularity run`.
 #
-# Note: you can fine tune the SLURM submission variables below as
-# needed.  Typical items to change are the runtime limit, location of
-# the job output, and the allocation project to submit against (it is
-# commented out for now, but is required if you have multiple
-# allocations).
-#
-# To submit the job, issue: "sbatch /share/doc/slurm/job.jupyter"
+# To submit the job, issue: "sbatch -s docker://enho/deeplabcut:2.1.10 job.jupytersing"
 #
 # For more information, please consult the User Guide at:
 #
@@ -33,6 +24,15 @@
 # ---- You normally should not need to edit anything below this point -----
 #--------------------------------------------------------------------------
 
+# get command line opts
+while getopts "s:" opt
+do
+   case "$opt" in
+      a ) SIMG="$OPTARG" ;;
+      #? ) helpFunction ;;
+   esac
+done
+
 echo job $SLURM_JOB_ID execution at: `date`
 
 # our node name
@@ -45,29 +45,14 @@ module load cuda/10.0
 module load cudnn nccl tacc-singularity
 module list
 
-# TODO: unhardcode
-SIF=/work/06634/eho/singularity_images/deeplabcut_2_1_10.sif
+#SIMG=/work/06634/eho/singularity_images/deeplabcut_2_1_10.sif
 SING_MOUNT_OPTS="-B local_models:/opt/conda/lib/python3.7/site-packages/deeplabcut/pose_estimation_tensorflow/models/pretrained/"
 if [ ! -d ./local_models ]; then
     echo "TACC: ERROR - could not find directory ./local_models required for Singularity mount"
     exit 1
 fi
-IPYTHON_BIN="singularity exec --nv --home $PWD ${SING_MOUNT_OPTS} ${SIF} jupyter-notebook"
+IPYTHON_BIN="singularity exec --nv --home $PWD ${SING_MOUNT_OPTS} ${SIMG} jupyter-notebook"
 echo "TACC: using IPYTHON_BIN ${IPYTHON_BIN}"
-
-#if [ "x${TACC_VIS_ALLOW_CONDA}" == "x" ]; then
-#  if `echo $IPYTHON_BIN | grep -q anaconda` ; then
-#    echo "TACC: ERROR - anaconda install detected. Please remove anaconda from your path before launching jupyter-notebook"
-#    echo "TACC: job $SLURM_JOB_ID execution finished at: `date`"
-#    exit 1
-#  fi
-#else
-#  echo "TACC: user set TACC_VIS_ALLOW_CONDA ... bypassing anaconda check"
-#fi
-
-#if `echo $IPYTHON_BIN | grep -qve '^/opt'` ; then
-  #echo "TACC: WARNING - non-system python detected. Script may not behave as expected"
-#fi
 
 NB_SERVERDIR=$HOME/.jupyter
 IP_CONFIG=$NB_SERVERDIR/jupyter_notebook_config.py
