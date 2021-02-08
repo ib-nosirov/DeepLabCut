@@ -48,11 +48,11 @@ $(SIF): | singularity
 	singularity pull $(SIF) docker://$(IMAGE)
 
 sing-dlc-demo: $(SIF) | singularity
-	singularity exec --nv --home $PWD \
+	singularity exec --nv --home $$PWD \
 		-B local_models:/opt/conda/lib/python3.7/site-packages/deeplabcut/pose_estimation_tensorflow/models/pretrained/ \
 		$(SIF) python3 examples/Demo_labeledexample_Openfield.py
 
 sing-shell: $(SIF) | singularity
-	singularity shell --nv --home $PWD \
+	singularity shell --nv --home $$PWD \
 		-B local_models:/opt/conda/lib/python3.7/site-packages/deeplabcut/pose_estimation_tensorflow/models/pretrained/ \
 		$(SIF)
