@@ -23,8 +23,12 @@ The purpose of this fork is to enable usage of DeepLabCut v2.2 on TACC GPU syste
           2) impi/19.0.9    5) python3/3.7.0   8) hwloc/1.11.12  11) cuda/10.0  (g)  14) ooops/1.4
           3) git/2.24.1     6) cmake/3.16.1    9) xalt/2.10.2    12) nccl/2.4.7 (g)  15) tacc-singularity/3.6.3
         ```
-    7. `make sing-dlc-demo` to run a [DeepLabCut demo notebook](https://github.com/DeepLabCut/DeepLabCut/blob/06c4a16828c6c335f7d332da3060516d29857893/examples/Demo_labeledexample_Openfield.ipynb) as a `*.py` script (converted via nbconvert)
-    8. `make sing-shell` to run a container in Singularity and open an interactive bash session
+    5. `make sing-dlc-demo` to run a [DeepLabCut demo notebook](https://github.com/DeepLabCut/DeepLabCut/blob/06c4a16828c6c335f7d332da3060516d29857893/examples/Demo_labeledexample_Openfield.ipynb) as a `*.py` script (converted via nbconvert)
+        * This script was generated using the following command:
+        ```bash
+        python3 -m nbconvert --to script examples/Demo_labeledexample_Openfield.ipynb
+        ```
+    6. `make sing-shell` to run a container in Singularity and open an interactive bash session
 
 ## Additional Docs
 
