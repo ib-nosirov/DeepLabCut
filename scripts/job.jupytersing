@@ -52,7 +52,7 @@ if [ ! -d ./local_models ]; then
     echo "TACC: ERROR - could not find directory ./local_models required for Singularity mount"
     exit 1
 fi
-IPYTHON_BIN="singularity exec --nv --home $PWD ${SING_MOUNT_OPTS} ${SIF}"
+IPYTHON_BIN="singularity exec --nv --home $PWD ${SING_MOUNT_OPTS} ${SIF} jupyter-notebook"
 echo "TACC: using IPYTHON_BIN ${IPYTHON_BIN}"
 
 #if [ "x${TACC_VIS_ALLOW_CONDA}" == "x" ]; then
