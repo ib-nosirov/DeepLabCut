@@ -1,7 +1,7 @@
 PYTHON ?= python3
 IMAGE ?= enho/deeplabcut:2.1.10
 ALLOCATION ?= SD2E-Community
-SIF ?= /work/06634/eho/singularity_images/deeplabcut_2_1_10.sif
+SIF ?= ./deeplabcut_2_1_10.sif
 
 # ------------------------------- Sanity checks -------------------------------
 

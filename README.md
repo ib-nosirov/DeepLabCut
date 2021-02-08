@@ -21,7 +21,7 @@ git clone https://github.com/eho-tacc/DeepLabCut.git deeplabcut-fork
 cd deeplabcut-fork
 ```
 3. Change `IMAGE` in the [Makefile](./Makefile) to the same tag that you specified above. This is not necessary if you are okay with using the [image I have pushed to Dockerhub](https://hub.docker.com/repository/docker/enho/deeplabcut).
-4. Change the `SIF` variable in the [Makefile](./Makefile) to a file path (usually somewhere on $WORK) where you would like to store the `*.sif` file
+4. Change the `SIF` variable in the [Makefile](./Makefile) to a file path (usually somewhere on $WORK) where you would like to store the `*.sif` file. By default, this is set to a path in the current working directory.
 5. Launch an idev session and load the following modules:
     1. `module load cuda/10.0`
     2. `module load nccl cudnn tacc-singularity`
@@ -41,8 +41,8 @@ cd deeplabcut-fork
 
 ### Running Jupyter within the Singularity image on TACC GPU
 
-This workflow is currently supported for Maverick2 and Frontera GPU nodes. It is similar to running the sbatch script `/share/doc/slurm/job.jupyter`, except that it launches `jupyter-notebook` from within the image built above.
-1. Complete steps 1-4 in the idev workflow described above
+This workflow is currently supported for Maverick2 and Frontera GPU nodes. It is similar to running the sbatch script `/share/doc/slurm/job.jupyter`, except that it launches `jupyter-notebook` from within the image built [above](#optional-build-and-push-the-docker-image).
+1. Complete steps 1-4 in the idev workflow described [above](#pull-and-run-the-docker-image-via-idev-and-singularity-on-tacc-gpu)
 2. Change the `ALLOCATION` in the [Makefile](./Makefile) from "SD2E-Community" to a valid allocation. You can view your allocations on the [TACC User Portal](https://portal.tacc.utexas.edu/projects-and-allocations).
 3. `make jupyter-mav2` or `make jupyter-frontera` to launch a SLURM job running Jupyter in the `SIMG` container, on a Maverick2 GTX node or Fronterat RTX node, respectively. This step is similar to running `sbatch /share/doc/slurm/job.jupyter`.
 4. Wait patiently until `tail -f ./jupyter.out` prints a URL to which you should direct your web browser.
