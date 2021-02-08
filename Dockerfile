@@ -11,8 +11,5 @@ RUN apt update -y && \
 COPY . /DeepLabCut
 RUN conda env update -n=base -f=/DeepLabCut/conda-environments/DLC-GPU.yaml && \
     pip install /DeepLabCut
-RUN chmod -cR +rwx /opt/conda/lib/python3.7/site-packages/deeplabcut
-RUN chmod -cR +rwx /tf-benchmarks
-CMD ["python3", "/DeepLabCut/examples/Demo_labeledexample_Openfield.py"]
 
 
