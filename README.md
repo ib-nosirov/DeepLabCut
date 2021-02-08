@@ -14,9 +14,9 @@ The purpose of this fork is to enable usage of DeepLabCut v2.2 on TACC GPU syste
 ### Pull and run the Docker image via idev and Singularity on TACC GPU
 
 1. Open an SSH session on a TACC system that supports GPU computation
-2. Clone this repository to your $WORK directory on a GPU-enabled TACC system
+2. Clone this repository to your $WORK directory on a GPU-enabled TACC system. Note: if your workflow is I/O intensive, please copy your working directory to $SCRATCH; please see [TACC's I/O best practices](https://portal.tacc.utexas.edu/tutorials/managingio) for details.
 ```bash
-cd $WORK
+cd $WORK # or cd $SCRATCH if I/O intensive
 git clone https://github.com/eho-tacc/DeepLabCut.git deeplabcut-fork
 cd deeplabcut-fork
 ```
