@@ -1,6 +1,6 @@
-# Ethan's Fork of DeepLabCut v2.2
+# Ethan's Fork of DeepLabCut v2.1.10
 
-The purpose of this fork is to enable usage of DeepLabCut v2.2 on TACC GPU systems.
+The purpose of this fork is to enable usage of DeepLabCut v2.1.10 on TACC GPU systems.
 
 ## Usage
 
