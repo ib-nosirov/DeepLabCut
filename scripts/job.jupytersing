@@ -53,6 +53,7 @@ if [ ! -d ./local_models ]; then
     exit 1
 fi
 IPYTHON_BIN="singularity exec --nv --home $PWD ${SING_MOUNT_OPTS} ${SIF}"
+echo "TACC: using IPYTHON_BIN ${IPYTHON_BIN}"
 
 #if [ "x${TACC_VIS_ALLOW_CONDA}" == "x" ]; then
 #  if `echo $IPYTHON_BIN | grep -q anaconda` ; then
