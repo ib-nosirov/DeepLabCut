@@ -7,14 +7,14 @@
 # Singularity container. The container must be saved as a SIF file, and its
 # POSIX path should be specified by setting the SIMG variable below.
 #
-# To submit the job, issue: "sbatch scripts/mav2.jupytersing"
+# To submit the job, issue: "sbatch scripts/mav2.jupytersing -s /work/06634/eho/singularity_images/deeplabcut_2_1_10.sif"
 #
 # For more information, please consult the User Guide at:
 #
 # http://www.tacc.utexas.edu/user-services/user-guides/maverick2-user-guide
 #-----------------------------------------------------------------------------
 #
-#SBATCH -J tvp_jupyter                # Job name
+#SBATCH -J tvp_jupyter_sing           # Job name
 #SBATCH -o jupyter.out                # Name of stdout output file (%j expands to jobId)
 #SBATCH -p gtx                        # Queue name
 #SBATCH -N 1                          # Total number of nodes requested (56 cores/node)
@@ -26,6 +26,15 @@ SIMG=/work/06634/eho/singularity_images/deeplabcut_2_1_10.sif
 #--------------------------------------------------------------------------
 # ---- You normally should not need to edit anything below this point -----
 #--------------------------------------------------------------------------
+
+# get command line options
+while getopts "i" opt
+do
+   case "$opt" in
+      a ) SIMG="$OPTARG" ;;
+      #? ) helpFunction ;;
+   esac
+done
 
 echo job $SLURM_JOB_ID execution at: `date`
 

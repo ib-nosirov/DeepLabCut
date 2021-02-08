@@ -56,3 +56,15 @@ sing-shell: $(SIF) | singularity
 	singularity shell --nv --home $$PWD \
 		-B local_models:/opt/conda/lib/python3.7/site-packages/deeplabcut/pose_estimation_tensorflow/models/pretrained/ \
 		$(SIF)
+
+# ----------------------------- Jupyter ---------------------------------------
+
+jupyter-mav2: $(SIF)
+	sbatch scripts/mav2.jupytersing -i $(SIF)
+	sleep 10
+	tail -f jupyter.out
+
+jupyter-frontera: $(SIF)
+	sbatch scripts/frontera.jupytersing -i $(SIF)
+	sleep 10
+	tail -f jupyter.out
