@@ -1,3 +1,30 @@
+# Ethan's Fork of DeepLabCut v2.2
+
+The purpose of this fork is to enable usage of DeepLabCut v2.2 on TACC GPU systems.
+
+## Usage
+
+1. (Optional): Build and push the Docker image
+    1. Change the `IMAGE` variable in the [Makefile](./Makefile) to your desired Docker tag
+    2. `make image` to build the image using Docker
+    3. `make push` to push the built image
+    4. `make shell` to start a container in Docker and open an interactive bash session
+2. Pull and run the Docker image via Singularity on TACC GPU
+    1. Clone this repository to your $WORK directory on a GPU-enabled TACC system
+    2. Change `IMAGE` in the [Makefile](./Makefile) to the same tag that you specified above. This is not necessary if you are okay with using the image I have pushed.
+    3. Change the `SIF` variable to a file path (usually somewhere on $WORK) where you would like to store the `*.sif` file
+    4. Launch an idev session
+    5. `make sing-dlc-demo` to run a [DeepLabCut demo notebook](https://github.com/DeepLabCut/DeepLabCut/blob/06c4a16828c6c335f7d332da3060516d29857893/examples/Demo_labeledexample_Openfield.ipynb) as a `*.py` script (converted via nbconvert)
+    6. `make sing-shell` to start a container in Singularity and open an interactive bash session
+
+## Additional Docs
+
+* [Singularity on TACC systems](https://containers-at-tacc.readthedocs.io/en/latest/singularity/01.singularity_basics.html)
+* [DeepLabCut](https://github.com/DeepLabCut/DeepLabCut)
+* [TACC-ML base images](https://github.com/TACC/tacc-ml)
+
+----
+
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 ![Python package](https://github.com/DeepLabCut/DeepLabCut/workflows/Python%20package/badge.svg)
 [![PyPI version](https://badge.fury.io/py/deeplabcut.svg)](https://badge.fury.io/py/deeplabcut)
@@ -64,7 +91,7 @@ In 2018, we demonstrated the capabilities for [trail tracking](https://vnmurthyl
 <p align="center">
 <img src="https://static1.squarespace.com/static/57f6d51c9f74566f55ecf271/t/5c3e47258a922d548c483247/1547585339819/ErrorvsTrainingsetSize.png?format=750w" height="160">
 <img src="https://static1.squarespace.com/static/57f6d51c9f74566f55ecf271/t/5c3e469d8a922d548c4828fa/1547585194560/compressionrobustness.png?format=750w" height="160">
-<img src="https://static1.squarespace.com/static/57f6d51c9f74566f55ecf271/t/5c3fbed74fa51acecd63deeb/1547681534736/MouseLocomotion_warren.gif?format=500w" height="160">  
+<img src="https://static1.squarespace.com/static/57f6d51c9f74566f55ecf271/t/5c3fbed74fa51acecd63deeb/1547681534736/MouseLocomotion_warren.gif?format=500w" height="160">
 <img src="https://static1.squarespace.com/static/57f6d51c9f74566f55ecf271/t/5c3fc1c6758d46950ce7eec7/1547682383595/cheetah.png?format=750w" height="160">
 </p>
 
