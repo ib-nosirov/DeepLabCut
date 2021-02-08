@@ -39,7 +39,7 @@ import deeplabcut
 import os
 # Note that parameters of this project can be seen at: *openfield-Pranav-2018-10-30/config.yaml*
 from pathlib import Path
-path_config_file = os.path.join('examples','openfield-Pranav-2018-10-30/config.yaml')
+path_config_file = os.path.join(os.getcwd(),'openfield-Pranav-2018-10-30/config.yaml')
 deeplabcut.load_demo_data(path_config_file)
 
 
@@ -91,7 +91,7 @@ deeplabcut.evaluate_network(path_config_file,plotting=False)
 
 # Creating video path:
 import os
-videofile_path = os.path.join('examples','openfield-Pranav-2018-10-30/videos/m3v1mp4.mp4')
+videofile_path = os.path.join(os.getcwd(),'openfield-Pranav-2018-10-30/videos/m3v1mp4.mp4')
 
 
 # In[ ]:
