@@ -2,11 +2,12 @@
 #
 #-----------------------------------------------------------------------------
 # Ethan Ho 2/8/2021
-# Like Frontera's /share/doc/slurm/job.jupyter, but runs jupyter-notebook in a
-# Singularity container. The image is passed via the -s flag, and can be any
-# image syntax allowed by `singularity run`.
 #
-# To submit the job, issue: "sbatch -s docker://enho/deeplabcut:2.1.10 job.jupytersing"
+# Like Frontera's /share/doc/slurm/job.jupyter, but runs jupyter-notebook in a
+# Singularity container. The container must be saved as a SIF file, and its
+# POSIX path should be specified by setting the SIMG variable below.
+#
+# To submit the job, issue: "sbatch job.jupytersing"
 #
 # For more information, please consult the User Guide at:
 #
@@ -20,18 +21,11 @@
 #SBATCH -n 1                          # Total number of mpi tasks requested
 #SBATCH -t 00:30:00                   # Run time (hh:mm:ss) - 4 hours
 
+SIMG=/work/06634/eho/singularity_images/deeplabcut_2_1_10.sif
+
 #--------------------------------------------------------------------------
 # ---- You normally should not need to edit anything below this point -----
 #--------------------------------------------------------------------------
-
-# get command line opts
-while getopts "s:" opt
-do
-   case "$opt" in
-      a ) SIMG="$OPTARG" ;;
-      #? ) helpFunction ;;
-   esac
-done
 
 echo job $SLURM_JOB_ID execution at: `date`
 
@@ -41,15 +35,22 @@ echo "TACC: running on node $NODE_HOSTNAME"
 
 echo "TACC: unloading xalt"
 module unload xalt
+
+# load modules. These are specific to the container enho/deeplabcut:2.1.10
 module load cuda/10.0
 module load cudnn nccl tacc-singularity
 module list
 
-#SIMG=/work/06634/eho/singularity_images/deeplabcut_2_1_10.sif
+# mount options that are specific for enho/deeplabcut:2.1.10
 SING_MOUNT_OPTS="-B local_models:/opt/conda/lib/python3.7/site-packages/deeplabcut/pose_estimation_tensorflow/models/pretrained/"
 if [ ! -d ./local_models ]; then
     echo "TACC: ERROR - could not find directory ./local_models required for Singularity mount"
     exit 1
+fi
+
+# IPYTHON_BIN is a singularity exec command
+if [ ! -f ${SIMG} ]; then
+    echo "TACC: ERROR - could not find a SIF file at ${SIMG}"
 fi
 IPYTHON_BIN="singularity exec --nv --home $PWD ${SING_MOUNT_OPTS} ${SIMG} jupyter-notebook"
 echo "TACC: using IPYTHON_BIN ${IPYTHON_BIN}"
