@@ -50,7 +50,7 @@ $(SIF): | singularity
 sing-dlc-demo: $(SIF) | singularity
 	singularity exec --nv --home $$PWD \
 		-B local_models:/opt/conda/lib/python3.7/site-packages/deeplabcut/pose_estimation_tensorflow/models/pretrained/ \
-		$(SIF) python3 examples/Demo_labeledexample_Openfield.py
+		$(SIF) bash -c "cd examples && python3 Demo_labeledexample_Openfield.py"
 
 sing-shell: $(SIF) | singularity
 	singularity shell --nv --home $$PWD \
