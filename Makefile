@@ -45,7 +45,7 @@ shell: image | docker
 push: image | docker
 	docker push $(IMAGE)
 
-$(SIF): | singularity
+$(SIF):
 	singularity pull $(SIF) docker://$(IMAGE)
 
 sing-dlc-demo: $(SIF) | singularity
