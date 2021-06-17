@@ -7,7 +7,7 @@
 # Singularity container. The container must be saved as a SIF file, and its
 # POSIX path should be specified by setting the SIMG variable below.
 #
-# To submit the job, issue: "sbatch scripts/mav2.jupytersing -s /work/06634/eho/singularity_images/deeplabcut_2_1_10.sif"
+# To submit the job, issue: "sbatch scripts/mav2.jupytersing -i /work/06634/eho/singularity_images/deeplabcut_2_1_10.sif"
 #
 # For more information, please consult the User Guide at:
 #
@@ -31,11 +31,11 @@ SIMG=/work/06634/eho/singularity_images/deeplabcut_2_1_10.sif
 while getopts "i" opt
 do
    case "$opt" in
-      a ) SIMG="$OPTARG" ;;
+      i ) SIMG="$OPTARG" ;;
       #? ) helpFunction ;;
    esac
 done
-
+[ -f $SIMG ] || (echo "Could not find Singularity image at ${SIMG}." && exit 1)
 echo job $SLURM_JOB_ID execution at: `date`
 
 # our node name
