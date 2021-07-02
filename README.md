@@ -12,16 +12,22 @@ Python packages, namely wxPython and Tensorflow v1.15, must be installed separat
 
 1. `brew install python@3.7` to install a Python version that is compatible
 with wxPython
-2. `/usr/local/opt/python@3.7/bin/python3 -m pip install --upgrade pip
-wxpython` to install wxPython
+<!-- This path is env specific. User will need to `brew info python@3.7` 
+to determine path to the brew installed 3.7 -->
 3. `/usr/local/opt/python@3.7/bin/python3 -m venv --system-site-packages
-[environment name]` to create a virtual environment
-4. `source [environment name]/bin/activate` to activate the virtual environment
+my_env` to create a virtual environment
+<!-- lose the brackets, user wants something that they can directly cut and paste -->
+4. `source my_env/bin/activate` to activate the virtual environment
 5. `pip install tensorflow==1.15` to install Tensorflow
-6. `git clone git@github.com:DepLabCut/DeepLabCut.git [repo name]` to clone the
+6. `git clone git@github.com:DeepLabCut/DeepLabCut.git` to clone the
 DeepLabCut repo
-7. `cd [repo name]`
+7. `cd DeepLabCut`
 8. `pip install -e .` to install DeepLabCut
+
+<!-- It's good that you are documenting your process somewhere. However, these 
+docs above have a high likelihood of becoming stale. They are also env specific.
+If I were to write the above paragraph, I would simply provide a link to DeepLabCut's
+installation instructions, which we can assume are always up to date. -->
 
 ### DeepLabCut on a TACC Machine
 
@@ -61,6 +67,10 @@ make sif
 ```
 7. Alternatively, `make sing-shell` to run a container in Singularity and open an interactive bash session
 
+<!-- Again, great that you are documenting your workflow. But these docs could also
+just reference upstream (my fork). Unless there is an error in my docs, in which case
+a pull request (PR) to upstream would be appropriate. -->
+
 ### Running Jupyter within the Singularity image on TACC GPU
 
 1. Complete steps 1-6 in the idev workflow described [above](#pull-and-run-the-docker-image-via-idev-and-singularity-on-tacc-gpu)
@@ -72,6 +82,31 @@ Fronterat RTX node, respectively. This step is similar to running `sbatch
 4. Wait patiently until `tail -f ./jupyter.out` prints a URL to which you
 should direct your web browser.
 5. Make sure to `scancel` your job after you are done working.
+
+<!-- Same as above: the workflow is fine, but it's already documented elsewhere.
+When posible, we should always try to consolidate documentation. Doing otherwise
+makes docs disparate, difficult to read, and difficult to find. 
+
+This is all great logging, but you will find that it is mostly for your own
+reference. My daily journal looks a lot like this, and I encourage you to also try a daily journal.
+The GUI section, for instance, will point to your env-specific
+python3.7 installation, but will only work for (guesstimating here) 50% of users
+just due to env/OS variability. This is often the problem with YouTube tutorials,
+which is why I try to avoid them.
+
+For official docs, best practice is usually to:
+1. Reference other (in this case upstream) docs when possible
+2. If upstream docs have errors, submit PR
+  1. Note that errors does not mean "it didn't work for me". Issues with a users specific env cannot and should not be covered in docs.
+  2. The space of user envs is usually too large to practically address them in one ground truth document.
+3. Write and maintain documentation for use cases that are not covered by other docs.
+
+"If I don't have detailed recapitulated docs, what will I give to Rayna at 
+the end of the summer?"
+You will (ideally) give her an ETL pipeline or sbatch script where she can
+`sbatch ibrohims_script.sh --video my_video` on Stampede2 and everything above "just works".
+That's one line of code that falls into category 3 mentioned above.
+-->
 
 ## Additional Docs
 
